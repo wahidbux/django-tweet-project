@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Django Application
+{% endblock %}
+
+{% block content %}
+
+<h1 class="text-center mt-4 mb-4">
+    Welcome to Django Application
+</h1>
+
+<div class="text-center mb-4">
+    <a class="btn btn-primary" href="{% url 'tweet_create' %}">
+        Create a Tweet
+    </a>
+</div>
+
+<div class="container">
+    <div class="row justify-content-center g-4">
+
+        {% for tweet in tweets %}
+        <div class="col-md-4 col-lg-3 d-flex justify-content-center">
+
+            <div class="card" style="width: 18rem;">
+
+                <!-- ✅ FIX: check if image exists -->
+                {% if tweet.photo %}
+                    <img src="{{ tweet.photo.url }}" class="card-img-top" alt="Tweet Image">
+                {% else %}
+                    <img src="https://via.placeholder.com/300x200?text=No+Image"
+                         class="card-img-top"
+                         alt="No Image">
+                {% endif %}
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        {{ tweet.user.username }}
+                    </h5>
+
+                    <p class="card-text">
+                        {{ tweet.text }}
+                    </p>
+
+                    <a href="{% url 'tweet_edit' tweet.id %}" class="btn btn-primary">
+                        Edit
+                    </a>
+
+                    <a href="{% url 'tweet_delete' tweet.id %}" class="btn btn-danger">
+                        Delete
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+{% endblock %}
